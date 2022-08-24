@@ -34,46 +34,49 @@ class User(Base):
     lastname = Column(String(250))
     email = Column(String(250))
 
-class Favoritos(Base):
-    __tablename__='favoritos'
-    id= Column(Integer, primary_key=True)
-    seguidores= Column(String(250))
-    seguidores_id=Column(Integer, ForeignKey('user.id'))
 
-    class Personajes(Base):
+
+class Personajes(Base):
     __tablename__='personajes'
     id= Column(Integer, primary_key=True)
     personajes= Column(String(250))
     personajes_id=Column(Integer, ForeignKey('user.id'))
     personajesfavorito_id=Column(Integer, ForeignKey('favoritos.id'))
+    relationUser = relationship(User)
 
 class Detallaspersonajes(Base):
     __tablename__='Detallaspersonajes'
     id= Column(Integer, primary_key=True)
     detallespersonajes= Column(String(250))
     detallespersonajes_id=Column(Integer, ForeignKey('personajes.id'))
+    relationPersonajes = relationship(Personajes)
 
-    class Planetas(Base):
+class Planetas(Base):
     __tablename__='planetas'
     id= Column(Integer, primary_key=True)
     planetas= Column(String(250))
     clima= Column(String(250))
     planetas_id=Column(Integer, ForeignKey('user.id'))
     planetasfavorito_id=Column(Integer, ForeignKey('favoritos.id'))
+    relationUser = relationship(User)
+    relationPersonajes = relationship(Personajes)
+
 
 class Tiposplanetas(Base):
     __tablename__='tiposplanetas'
     id= Column(Integer, primary_key=True)
     tiposplanetas= Column(String(250))
     tiposplanetas_id=Column(Integer, ForeignKey('planetas.id'))
+    relationPlanetas = relationship(Planetas)
 
-    class Naves(Base):
+
+class Naves(Base):
     __tablename__='naves'
     id= Column(Integer, primary_key=True)
     nave= Column(String(250))
     nave_id=Column(Integer, ForeignKey('user.id'))
     navefavoritos_id=Column(Integer, ForeignKey('favoritos.id'))
-
+    relationUser = relationship(User)
 
 
     def to_dict(self):
