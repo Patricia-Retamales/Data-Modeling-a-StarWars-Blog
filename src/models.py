@@ -26,61 +26,91 @@ Base = declarative_base()
 #     person_id = Column(Integer, ForeignKey('person.id'))
 #     person = relationship(Person)
 
-class User(Base):
-    __tablename__='user'
-    id= Column(Integer, primary_key=True)
-    username = Column(String(250))
-    firstname = Column(String(250))
-    lastname = Column(String(250))
-    email = Column(String(250))
+class Character(Base):
+    __tablename__ = 'character'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250),nullable=False)
+    height = Column(Integer, nullable=False)
+    mass = Column(Integer, nullable=False)
+    hair_color = Column(String(250), nullable=False)
+    eye_color = Column(String(250), nullable=False)
+    gender = Column(String(30), nullable=False)
+    user_id = Column(Integer, ForeignKey('user.id'), primary_key=True)
 
 
 
-class Personajes(Base):
-    __tablename__='personajes'
-    id= Column(Integer, primary_key=True)
-    personajes= Column(String(250))
-    personajes_id=Column(Integer, ForeignKey('user.id'))
-    personajesfavorito_id=Column(Integer, ForeignKey('favoritos.id'))
-    relationUser = relationship(User)
-
-class Detallaspersonajes(Base):
-    __tablename__='Detallaspersonajes'
-    id= Column(Integer, primary_key=True)
-    detallespersonajes= Column(String(250))
-    detallespersonajes_id=Column(Integer, ForeignKey('personajes.id'))
-    relationPersonajes = relationship(Personajes)
-
-class Planetas(Base):
-    __tablename__='planetas'
-    id= Column(Integer, primary_key=True)
-    planetas= Column(String(250))
-    clima= Column(String(250))
-    planetas_id=Column(Integer, ForeignKey('user.id'))
-    planetasfavorito_id=Column(Integer, ForeignKey('favoritos.id'))
-    relationUser = relationship(User)
-    relationPersonajes = relationship(Personajes)
 
 
-class Tiposplanetas(Base):
-    __tablename__='tiposplanetas'
-    id= Column(Integer, primary_key=True)
-    tiposplanetas= Column(String(250))
-    tiposplanetas_id=Column(Integer, ForeignKey('planetas.id'))
-    relationPlanetas = relationship(Planetas)
+
+class Planets(Base):
+    __tablename__ = 'planets'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250), nullable=False)
+    diameter = Column(Integer, nullable=False)
+    rotation_period = Column(Integer, nullable=False)
+    orbital_period = Column(Integer, nullable=False)
+    gravity = Column(Integer, nullable=False)
+    population = Column(Integer, nullable=False)
+    terrain = Column(String(250), nullable=False)
+    surface_water =  Column(Integer, nullable=False)
+    user_id = Column(Integer, ForeignKey('user.id'), primary_key=True)
 
 
-class Naves(Base):
-    __tablename__='naves'
-    id= Column(Integer, primary_key=True)
-    nave= Column(String(250))
-    nave_id=Column(Integer, ForeignKey('user.id'))
-    navefavoritos_id=Column(Integer, ForeignKey('favoritos.id'))
-    relationUser = relationship(User)
+
+
+
+class Starships(Base):
+    __tablename__ = 'starships'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250), nullable=False)
+    model = Column(String(250), nullable=False)
+    length = Column(Integer, nullable=False)
+    crew = Column(Integer, nullable=False)
+    passengers = Column(Integer, nullable=False)
+    manufacturer = Column(String(250), nullable=False)
+    max_atmosphering_speed = Column(Integer, nullable=False)
+    cargo_capacity = Column(Integer, nullable=False)
+    consumables = Column(String(250), nullable=False)
+    cost_in_credits = Column(Integer, nullable=False)
+    user_id = Column(Integer, ForeignKey('user.id'), primary_key=True)
+
+
+
+class User (Base):
+    __tablename__ = 'user'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250),nullable=False)
+    nickname = Column(String(250),nullable=False)
+    email = Column(String(250),nullable=False)
+    password = Column(String(250),nullable=False)
+
+
+
+class Favorite (Base):
+    __tablename__ = 'favorite'
+    id = Column(Integer, primary_key=True)
+    planets_id = Column(Integer, ForeignKey('planets.id'))
+    character_id = Column(Integer, ForeignKey('character'))
+    starships_id = Column(Integer, ForeignKey('starships'))
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     def to_dict(self):
         return {}
+
+
 
 ## Draw from SQLAlchemy base
 render_er(Base, 'diagram.png')
